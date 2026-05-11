@@ -32,7 +32,7 @@ jobs:
       - name: Setear secrets en Fly.io
         run: |
           fly secrets set \
-            DATABASE_URL="postgresql://fly-user:P5GeW52Z3DgOgMldNFTlpdGo@direct.9jknq0393gn068w3.flympg.net/Ajua" \
+            DATABASE_URL="postgresql://fly-user:P5GeW52Z3DgOgMldNFTlpdGo@9jknq0393gn068w3.flympg.net/Ajua?sslmode=disable" \
             WEBAPP_URL="https://formbricks-kusmedios-fly.fly.dev" \
             NEXTAUTH_URL="https://formbricks-kusmedios-fly.fly.dev" \
             --app formbricks-kusmedios-fly
