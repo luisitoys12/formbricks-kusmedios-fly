@@ -21,7 +21,7 @@ jobs:
           curl -L https://fly.io/install.sh | sh
           echo "$HOME/.fly/bin" >> $GITHUB_PATH
 
-      - name: Crear volumen
+      - name: Crear volumen si no existe
         run: |
           fly volumes create formbricks_uploads \
             --app formbricks-kusmedios-fly \
@@ -29,17 +29,12 @@ jobs:
             --size 5 \
             --yes || echo "Volumen ya existe, continuando..."
 
-      - name: Configurar secrets de Formbricks
+      - name: Setear secrets en Fly.io
         run: |
           fly secrets set \
-            NEXTAUTH_SECRET="${{ secrets.NEXTAUTH_SECRET }}" \
-            ENCRYPTION_KEY="${{ secrets.ENCRYPTION_KEY }}" \
-            CRON_SECRET="${{ secrets.CRON_SECRET }}" \
+            DATABASE_URL="postgresql://fly-user:P5GeW52Z3DgOgMldNFTlpdGo@direct.9jknq0393gn068w3.flympg.net/Ajua" \
             WEBAPP_URL="https://formbricks-kusmedios-fly.fly.dev" \
             NEXTAUTH_URL="https://formbricks-kusmedios-fly.fly.dev" \
-            DATABASE_URL="${{ secrets.DATABASE_URL }}" \
-            EMAIL_VERIFICATION_DISABLED="1" \
-            PASSWORD_RESET_DISABLED="1" \
             --app formbricks-kusmedios-fly
 
       - name: Deploy a Fly.io
