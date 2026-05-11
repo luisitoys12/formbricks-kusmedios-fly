@@ -1,0 +1,41 @@
+app = "formbricks-kusmedios"
+primary_region = "dfw"
+kill_signal = "SIGINT"
+kill_timeout = "5s"
+
+[build]
+  image = "ghcr.io/formbricks/formbricks:latest"
+
+[env]
+  PORT = "3000"
+  NODE_ENV = "production"
+  WEBAPP_URL = "https://formbricks-kusmedios.fly.dev"
+  NEXTAUTH_URL = "https://formbricks-kusmedios.fly.dev"
+  EMAIL_VERIFICATION_DISABLED = "1"
+  PASSWORD_RESET_DISABLED = "1"
+  SIGNUP_DISABLED = "0"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
+
+  [[http_service.checks]]
+    grace_period = "60s"
+    interval = "30s"
+    method = "GET"
+    path = "/health"
+    timeout = "10s"
+
+[[vm]]
+  memory = "1gb"
+  cpu_kind = "shared"
+  cpus = 1
+
+[mounts]
+  source = "formbricks_uploads"
+  destination = "/home/nextjs/apps/web/uploads"
+  initial_size = "5gb"
