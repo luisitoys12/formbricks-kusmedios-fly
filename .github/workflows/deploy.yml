@@ -13,11 +13,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup flyctl
-        uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Instalar flyctl
+        run: curl -L https://fly.io/install.sh | sh
 
       - name: Deploy a Fly.io
         run: |
+          export PATH="$HOME/.fly/bin:$PATH"
           fly deploy --app formbricks-kusmedios-fly \
             --image ghcr.io/formbricks/formbricks:latest \
             --ha=false
