@@ -1,41 +1,47 @@
-app = "formbricks-kusmedios"
-primary_region = "dfw"
-kill_signal = "SIGINT"
-kill_timeout = "5s"
+# fly.toml app configuration file generated for formbricks-kusmedios-fly-r536mq on 2026-05-11T02:17:27Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'formbricks-kusmedios-fly-r536mq'
+primary_region = 'dfw'
+kill_signal = 'SIGINT'
+kill_timeout = '5s'
 
 [build]
-  image = "ghcr.io/formbricks/formbricks:latest"
+  image = 'ghcr.io/formbricks/formbricks:latest'
 
 [env]
-  PORT = "3000"
-  NODE_ENV = "production"
-  WEBAPP_URL = "https://formbricks-kusmedios.fly.dev"
-  NEXTAUTH_URL = "https://formbricks-kusmedios.fly.dev"
-  EMAIL_VERIFICATION_DISABLED = "1"
-  PASSWORD_RESET_DISABLED = "1"
-  SIGNUP_DISABLED = "0"
+  EMAIL_VERIFICATION_DISABLED = '1'
+  NEXTAUTH_URL = 'https://formbricks-kusmedios.fly.dev'
+  NODE_ENV = 'production'
+  PASSWORD_RESET_DISABLED = '1'
+  PORT = '3000'
+  SIGNUP_DISABLED = '0'
+  WEBAPP_URL = 'https://formbricks-kusmedios.fly.dev'
+
+[[mounts]]
+  source = 'formbricks_uploads'
+  destination = '/home/nextjs/apps/web/uploads'
+  initial_size = '5gb'
 
 [http_service]
-  internal_port = 3000
+  internal_port = 8080
   force_https = true
-  auto_stop_machines = "stop"
+  auto_stop_machines = 'stop'
   auto_start_machines = true
   min_machines_running = 0
-  processes = ["app"]
+  processes = ['app']
 
   [[http_service.checks]]
-    grace_period = "60s"
-    interval = "30s"
-    method = "GET"
-    path = "/health"
-    timeout = "10s"
+    interval = '30s'
+    timeout = '10s'
+    grace_period = '1m0s'
+    method = 'GET'
+    path = '/health'
 
 [[vm]]
-  memory = "1gb"
-  cpu_kind = "shared"
+  memory = '1gb'
+  cpu_kind = 'shared'
   cpus = 1
-
-[mounts]
-  source = "formbricks_uploads"
-  destination = "/home/nextjs/apps/web/uploads"
-  initial_size = "5gb"
+  memory_mb = 256
